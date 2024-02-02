@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Center(
           child: Text(
-            'Rest API Call',
+            'Rest API Call Contact',
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -28,20 +28,26 @@ class _HomeScreenState extends State<HomeScreen> {
           itemCount: users.length,
           itemBuilder: (context, index) {
             final user = users[index];
-            final name = user['name']['first'];
-            final email = user['email'];
+            final title = user['name']['title'];
+            final firstName = user['name']['first'];
+            final lastName = user['name']['last'];
+
+            final fullName = "$title $firstName $lastName";
+            final phone = user['phone'];
+            final imageProfile = user['picture']['thumbnail'];
             return ListTile(
               leading: CircleAvatar(
-                  backgroundColor: Colors.blue, child: Text('${index + 1}')),
-              title: Text(name),
-              subtitle: Text(email),
+                backgroundImage: NetworkImage(imageProfile),
+              ),
+              title: Text(fullName),
+              subtitle: Text(phone),
             );
           }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         onPressed: fetchUsers,
         child: const Icon(
-          Icons.add,
+          Icons.replay_rounded,
           color: Colors.white,
         ),
       ),
@@ -50,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void fetchUsers() async {
     print('Fetch User Called');
-    const url = 'https://randomuser.me/api/?results=30';
+    const url = 'https://randomuser.me/api/?results=25';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;
