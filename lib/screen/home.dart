@@ -12,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> users = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,24 +26,25 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.blue,
       ),
       body: ListView.builder(
-          itemCount: users.length,
-          itemBuilder: (context, index) {
-            final user = users[index];
-            final title = user['name']['title'];
-            final firstName = user['name']['first'];
-            final lastName = user['name']['last'];
-
-            final fullName = "$title $firstName $lastName";
-            final phone = user['phone'];
-            final imageProfile = user['picture']['thumbnail'];
-            return ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(imageProfile),
-              ),
-              title: Text(fullName),
-              subtitle: Text(phone),
-            );
-          }),
+        itemCount: users.length,
+        itemBuilder: (context, index) {
+          final user = users[index];
+          final title = user['name']['title'];
+          final firstName = user['name']['first'];
+          final lastName = user['name']['last'];
+          final fullName = "$title $firstName $lastName";
+          final phone = user['phone'];
+          final imageProfile = user['picture']['thumbnail'];
+          user['postcode'] != null ? user['cell'].toString() : 'N/A';
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(imageProfile),
+            ),
+            title: Text(fullName),
+            subtitle: Text(phone),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         onPressed: fetchUsers,
